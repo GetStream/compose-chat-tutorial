@@ -13,6 +13,15 @@
             android:name=".MessagesActivity"
             android:exported="true" />
         <activity
+            android:name=".MessagesActivity2"
+            android:exported="true" />
+        <activity
+            android:name=".MessagesActivity3"
+            android:exported="true" />
+        <activity
+            android:name=".MessagesActivity4"
+            android:exported="true" />
+        <activity
             android:name=".MainActivity"
             android:exported="true"
             android:label="@string/app_name"
