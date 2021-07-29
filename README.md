@@ -2,6 +2,8 @@
 
 This repository allows you to check the result after completing the [Compose Chat Tutorial](https://getstream.io/chat/compose/tutorial/).
 
+> Not using Compose yet? Check out the [tutorial repo of our XML based UI components](https://github.com/GetStream/android-chat-tutorial) instead.
+
 The project is pre-configured with a shared [Stream](https://getstream.io) account for testing purposes. You can learn more about Stream Chat [here](https://getstream.io/chat/), and then sign up for an account and obtain your own keys [here](https://getstream.io/chat/trial).
 
 ## Quick start
