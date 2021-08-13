@@ -68,8 +68,6 @@ class MessagesActivity4 : AppCompatActivity() {
             return
         }
 
-        listViewModel.start()
-
         // 2 - Add the MessagesScreen to your UI
         setContent {
             ChatTheme(
