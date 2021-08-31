@@ -32,7 +32,9 @@ class MessagesActivity2 : AppCompatActivity() {
                     attachment = RoundedCornerShape(16.dp),
                     myMessageBubble = RoundedCornerShape(16.dp),
                     otherMessageBubble = RoundedCornerShape(16.dp),
-                    inputField = RectangleShape
+                    inputField = RectangleShape,
+                    imageThumbnail = RoundedCornerShape(8.dp),
+                    bottomSheet = RoundedCornerShape(topStart = 16.dp, topEnd = 16.dp)
                 )
             ) {
                 MessagesScreen(

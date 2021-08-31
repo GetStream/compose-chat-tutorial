@@ -7,6 +7,7 @@ import android.os.Bundle
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
@@ -45,6 +46,7 @@ class MessagesActivity3 : AppCompatActivity() {
             ChatClient.instance(),
             ChatDomain.instance(),
             intent.getStringExtra(MessagesActivity3.KEY_CHANNEL_ID) ?: "",
+            enforceUniqueReactions = true,
             30
         )
     }
@@ -67,12 +69,14 @@ class MessagesActivity3 : AppCompatActivity() {
         // 2 - Add the MessagesScreen to your UI
         setContent {
             ChatTheme(
-                shapes = StreamShapes(
+                shapes = StreamShapes( // Customizing the shapes
                     avatar = RoundedCornerShape(8.dp),
                     attachment = RoundedCornerShape(16.dp),
                     myMessageBubble = RoundedCornerShape(16.dp),
                     otherMessageBubble = RoundedCornerShape(16.dp),
-                    inputField = RectangleShape
+                    inputField = RectangleShape,
+                    imageThumbnail = RoundedCornerShape(8.dp),
+                    bottomSheet = RoundedCornerShape(topStart = 16.dp, topEnd = 16.dp)
                 )
             ) {
                 MyCustomUi()
@@ -91,11 +95,17 @@ class MessagesActivity3 : AppCompatActivity() {
             Scaffold(
                 modifier = Modifier.fillMaxSize(),
                 bottomBar = {
-                    MessageComposer(composerViewModel) // 3 - Add a composer
+                    MessageComposer( // 3 - Add a composer
+                        composerViewModel,
+                        onAttachmentsClick = {
+                            attachmentsPickerViewModel.changeAttachmentState(true)
+                        }
+                    )
                 }
             ) {
                 MessageList( // 4 - Build the MessageList and connect the actions
                     modifier = Modifier
+                        .background(ChatTheme.colors.appBackground)
                         .padding(it)
                         .fillMaxSize(),
                     viewModel = listViewModel,

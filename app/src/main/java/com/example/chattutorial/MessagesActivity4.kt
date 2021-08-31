@@ -47,7 +47,8 @@ class MessagesActivity4 : AppCompatActivity() {
             ChatClient.instance(),
             ChatDomain.instance(),
             intent.getStringExtra(MessagesActivity4.KEY_CHANNEL_ID) ?: "",
-            30
+            enforceUniqueReactions = true,
+            messageLimit = 30,
         )
     }
 
@@ -69,12 +70,14 @@ class MessagesActivity4 : AppCompatActivity() {
         // 2 - Add the MessagesScreen to your UI
         setContent {
             ChatTheme(
-                shapes = StreamShapes(
+                shapes = StreamShapes( // Customizing the shapes
                     avatar = RoundedCornerShape(8.dp),
                     attachment = RoundedCornerShape(16.dp),
                     myMessageBubble = RoundedCornerShape(16.dp),
                     otherMessageBubble = RoundedCornerShape(16.dp),
-                    inputField = RectangleShape
+                    inputField = RectangleShape,
+                    imageThumbnail = RoundedCornerShape(8.dp),
+                    bottomSheet = RoundedCornerShape(topStart = 16.dp, topEnd = 16.dp)
                 )
             ) {
                 MyCustomUi()
