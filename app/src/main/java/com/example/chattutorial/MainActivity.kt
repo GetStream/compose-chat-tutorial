@@ -41,7 +41,7 @@ class MainActivity : AppCompatActivity() {
                 ChannelsScreen(
                     title = stringResource(id = R.string.app_name),
                     onItemClick = { channel ->
-                        startActivity(MessagesActivity4.getIntent(this, channel.cid))
+                        startActivity(MessagesActivity.getIntent(this, channel.cid))
                     },
                     onBackPressed = { finish() }
                 )

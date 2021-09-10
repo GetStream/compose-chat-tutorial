@@ -45,6 +45,7 @@ class MessagesActivity3 : AppCompatActivity() {
             ChatClient.instance(),
             ChatDomain.instance(),
             intent.getStringExtra(MessagesActivity3.KEY_CHANNEL_ID) ?: "",
+            true,
             30
         )
     }
@@ -67,7 +68,7 @@ class MessagesActivity3 : AppCompatActivity() {
         // 2 - Add the MessagesScreen to your UI
         setContent {
             ChatTheme(
-                shapes = StreamShapes(
+                shapes = StreamShapes.defaultShapes().copy(
                     avatar = RoundedCornerShape(8.dp),
                     attachment = RoundedCornerShape(16.dp),
                     myMessageBubble = RoundedCornerShape(16.dp),

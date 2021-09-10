@@ -27,7 +27,7 @@ class MessagesActivity2 : AppCompatActivity() {
         // 2 - Add the MessagesScreen to your UI
         setContent {
             ChatTheme(
-                shapes = StreamShapes( // Customizing the shapes
+                shapes = StreamShapes.defaultShapes().copy( // Customizing the shapes
                     avatar = RoundedCornerShape(8.dp),
                     attachment = RoundedCornerShape(16.dp),
                     myMessageBubble = RoundedCornerShape(16.dp),
