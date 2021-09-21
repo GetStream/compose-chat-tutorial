@@ -27,13 +27,15 @@ class MessagesActivity2 : AppCompatActivity() {
         // 2 - Add the MessagesScreen to your UI
         setContent {
             ChatTheme(
-                shapes = StreamShapes( // Customizing the shapes
-                    avatar = RoundedCornerShape(8.dp),
-                    attachment = RoundedCornerShape(16.dp),
-                    myMessageBubble = RoundedCornerShape(16.dp),
-                    otherMessageBubble = RoundedCornerShape(16.dp),
-                    inputField = RectangleShape
-                )
+                shapes = StreamShapes
+                    .defaultShapes()
+                    .copy(
+                        avatar = RoundedCornerShape(8.dp),
+                        attachment = RoundedCornerShape(16.dp),
+                        myMessageBubble = RoundedCornerShape(16.dp),
+                        otherMessageBubble = RoundedCornerShape(16.dp),
+                        inputField = RectangleShape
+                    )
             ) {
                 MessagesScreen(
                     channelId = channelId,
