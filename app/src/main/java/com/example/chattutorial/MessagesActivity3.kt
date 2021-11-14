@@ -1,12 +1,12 @@
 package com.example.chattutorial
 
-import android.content.ClipboardManager
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
@@ -20,7 +20,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.unit.dp
-import io.getstream.chat.android.client.ChatClient
 import io.getstream.chat.android.compose.state.messages.Thread
 import io.getstream.chat.android.compose.ui.messages.attachments.AttachmentsPicker
 import io.getstream.chat.android.compose.ui.messages.composer.MessageComposer
@@ -33,20 +32,14 @@ import io.getstream.chat.android.compose.viewmodel.messages.AttachmentsPickerVie
 import io.getstream.chat.android.compose.viewmodel.messages.MessageComposerViewModel
 import io.getstream.chat.android.compose.viewmodel.messages.MessageListViewModel
 import io.getstream.chat.android.compose.viewmodel.messages.MessagesViewModelFactory
-import io.getstream.chat.android.offline.ChatDomain
 
 class MessagesActivity3 : AppCompatActivity() {
 
     // Build the ViewModel factory
     private val factory by lazy {
         MessagesViewModelFactory(
-            this,
-            getSystemService(CLIPBOARD_SERVICE) as ClipboardManager,
-            ChatClient.instance(),
-            ChatDomain.instance(),
-            intent.getStringExtra(MessagesActivity3.KEY_CHANNEL_ID) ?: "",
-            enforceUniqueReactions = true,
-            messageLimit = 30
+            context = this,
+            channelId = intent.getStringExtra(KEY_CHANNEL_ID) ?: "",
         )
     }
 
@@ -94,11 +87,17 @@ class MessagesActivity3 : AppCompatActivity() {
             Scaffold(
                 modifier = Modifier.fillMaxSize(),
                 bottomBar = {
-                    MessageComposer(composerViewModel) // 3 - Add a composer
+                    MessageComposer( // 3 - Add a composer
+                        composerViewModel,
+                        onAttachmentsClick = {
+                            attachmentsPickerViewModel.changeAttachmentState(true)
+                        }
+                    )
                 }
             ) {
                 MessageList( // 4 - Build the MessageList and connect the actions
                     modifier = Modifier
+                        .background(ChatTheme.colors.appBackground)
                         .padding(it)
                         .fillMaxSize(),
                     viewModel = listViewModel,

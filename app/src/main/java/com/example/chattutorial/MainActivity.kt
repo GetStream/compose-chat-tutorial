@@ -16,13 +16,13 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        // Step 1 - Set up the client for API calls and the domain for offline storage
+        // 1 - Set up the client for API calls and the domain for offline storage
         val client = ChatClient.Builder("b67pax5b2wdq", applicationContext)
             .logLevel(ChatLogLevel.ALL) // Set to NOTHING in prod
             .build()
         ChatDomain.Builder(client, applicationContext).build()
 
-        // Step 2 - Authenticate and connect the user
+        // 2 - Authenticate and connect the user
         val user = User(
             id = "tutorial-droid",
             extraData = mutableMapOf(
@@ -35,7 +35,7 @@ class MainActivity : AppCompatActivity() {
             token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoidHV0b3JpYWwtZHJvaWQifQ.NhEr0hP9W9nwqV7ZkdShxvi02C5PR7SJE7Cs4y7kyqg"
         ).enqueue()
 
-        // Step 3 - Set up the Channels Screen UI
+        // 3 - Set up the Channels Screen UI
         setContent {
             ChatTheme {
                 ChannelsScreen(
