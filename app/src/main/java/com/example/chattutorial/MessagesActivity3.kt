@@ -20,7 +20,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.unit.dp
-import io.getstream.chat.android.compose.state.messages.Thread
+import io.getstream.chat.android.common.state.MessageMode.MessageThread
 import io.getstream.chat.android.compose.ui.messages.attachments.AttachmentsPicker
 import io.getstream.chat.android.compose.ui.messages.composer.MessageComposer
 import io.getstream.chat.android.compose.ui.messages.list.MessageList
@@ -102,7 +102,7 @@ class MessagesActivity3 : AppCompatActivity() {
                         .fillMaxSize(),
                     viewModel = listViewModel,
                     onThreadClick = { message ->
-                        composerViewModel.setMessageMode(Thread(message))
+                        composerViewModel.setMessageMode(MessageThread(message))
                         listViewModel.openMessageThread(message)
                     }
                 )

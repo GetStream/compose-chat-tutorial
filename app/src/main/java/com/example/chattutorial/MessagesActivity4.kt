@@ -28,7 +28,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.unit.dp
-import io.getstream.chat.android.compose.state.messages.Thread
+import io.getstream.chat.android.common.state.MessageMode.MessageThread
+import io.getstream.chat.android.compose.state.messages.composer.MessageInputState
 import io.getstream.chat.android.compose.ui.messages.attachments.AttachmentsPicker
 import io.getstream.chat.android.compose.ui.messages.composer.MessageComposer
 import io.getstream.chat.android.compose.ui.messages.composer.components.MessageInput
@@ -106,7 +107,7 @@ class MessagesActivity4 : AppCompatActivity() {
                         .fillMaxSize(),
                     viewModel = listViewModel,
                     onThreadClick = { message ->
-                        composerViewModel.setMessageMode(Thread(message))
+                        composerViewModel.setMessageMode(MessageThread(message))
                         listViewModel.openMessageThread(message)
                     }
                 )
@@ -158,14 +159,22 @@ class MessagesActivity4 : AppCompatActivity() {
             viewModel = composerViewModel,
             integrations = {}, // 2 - Remove integrations from the composer
             input = { // 3 - Add a custom message input
+                val value by composerViewModel.input.collectAsState()
+                val selectedAttachments by composerViewModel.selectedAttachments.collectAsState()
+                val activeAction by composerViewModel.lastActiveAction.collectAsState(null)
+                val validationErrors by composerViewModel.validationErrors.collectAsState()
+
                 MessageInput(
                     modifier = Modifier
                         .fillMaxWidth()
                         .weight(7f)
                         .padding(start = 8.dp),
-                    value = composerViewModel.input,
-                    attachments = composerViewModel.selectedAttachments,
-                    activeAction = composerViewModel.activeAction,
+                    messageInputState = MessageInputState(
+                        inputValue = value,
+                        attachments = selectedAttachments,
+                        action = activeAction,
+                        validationErrors = validationErrors,
+                    ),
                     onValueChange = { composerViewModel.setMessageInput(it) },
                     onAttachmentRemoved = { composerViewModel.removeSelectedAttachment(it) },
                     label = { // 4 - Override the label to show a custom icon and a text
