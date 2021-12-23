@@ -25,7 +25,7 @@ import io.getstream.chat.android.compose.ui.messages.attachments.AttachmentsPick
 import io.getstream.chat.android.compose.ui.messages.composer.MessageComposer
 import io.getstream.chat.android.compose.ui.messages.list.MessageList
 import io.getstream.chat.android.compose.ui.messages.overlay.SelectedMessageOverlay
-import io.getstream.chat.android.compose.ui.messages.overlay.defaultMessageOptions
+import io.getstream.chat.android.compose.ui.messages.overlay.defaultMessageOptionsState
 import io.getstream.chat.android.compose.ui.theme.ChatTheme
 import io.getstream.chat.android.compose.ui.theme.StreamShapes
 import io.getstream.chat.android.compose.viewmodel.messages.AttachmentsPickerViewModel
@@ -129,7 +129,7 @@ class MessagesActivity3 : AppCompatActivity() {
             // 6 - Show the overlay if we've selected a message
             if (selectedMessage != null) {
                 SelectedMessageOverlay(
-                    messageOptions = defaultMessageOptions(
+                    messageOptions = defaultMessageOptionsState(
                         selectedMessage,
                         user,
                         listViewModel.isInThread
@@ -139,7 +139,8 @@ class MessagesActivity3 : AppCompatActivity() {
                         composerViewModel.performMessageAction(action)
                         listViewModel.performMessageAction(action)
                     },
-                    onDismiss = { listViewModel.removeOverlay() }
+                    onDismiss = { listViewModel.removeOverlay() },
+                    currentUser = user
                 )
             }
         }

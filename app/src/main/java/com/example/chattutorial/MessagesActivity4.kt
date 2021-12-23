@@ -29,13 +29,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.unit.dp
 import io.getstream.chat.android.common.state.MessageMode.MessageThread
-import io.getstream.chat.android.compose.state.messages.composer.MessageInputState
+import io.getstream.chat.android.compose.state.messages.composer.MessageComposerState
 import io.getstream.chat.android.compose.ui.messages.attachments.AttachmentsPicker
 import io.getstream.chat.android.compose.ui.messages.composer.MessageComposer
 import io.getstream.chat.android.compose.ui.messages.composer.components.MessageInput
 import io.getstream.chat.android.compose.ui.messages.list.MessageList
 import io.getstream.chat.android.compose.ui.messages.overlay.SelectedMessageOverlay
-import io.getstream.chat.android.compose.ui.messages.overlay.defaultMessageOptions
+import io.getstream.chat.android.compose.ui.messages.overlay.defaultMessageOptionsState
 import io.getstream.chat.android.compose.ui.theme.ChatTheme
 import io.getstream.chat.android.compose.ui.theme.StreamShapes
 import io.getstream.chat.android.compose.viewmodel.messages.AttachmentsPickerViewModel
@@ -134,7 +134,7 @@ class MessagesActivity4 : AppCompatActivity() {
             // 6 - Show the overlay if we've selected a message
             if (selectedMessage != null) {
                 SelectedMessageOverlay(
-                    messageOptions = defaultMessageOptions(
+                    messageOptions = defaultMessageOptionsState(
                         selectedMessage,
                         user,
                         listViewModel.isInThread
@@ -144,7 +144,8 @@ class MessagesActivity4 : AppCompatActivity() {
                         composerViewModel.performMessageAction(action)
                         listViewModel.performMessageAction(action)
                     },
-                    onDismiss = { listViewModel.removeOverlay() }
+                    onDismiss = { listViewModel.removeOverlay() },
+                    currentUser = user
                 )
             }
         }
@@ -169,7 +170,7 @@ class MessagesActivity4 : AppCompatActivity() {
                         .fillMaxWidth()
                         .weight(7f)
                         .padding(start = 8.dp),
-                    messageInputState = MessageInputState(
+                    messageComposerState = MessageComposerState(
                         inputValue = value,
                         attachments = selectedAttachments,
                         action = activeAction,
