@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Scaffold
 import androidx.compose.runtime.Composable
@@ -21,11 +22,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.unit.dp
 import io.getstream.chat.android.common.state.MessageMode.MessageThread
+import io.getstream.chat.android.compose.state.messages.SelectedMessageOptionsState
+import io.getstream.chat.android.compose.ui.components.messageoptions.defaultMessageOptionsState
+import io.getstream.chat.android.compose.ui.components.selectedmessage.SelectedMessageMenu
 import io.getstream.chat.android.compose.ui.messages.attachments.AttachmentsPicker
 import io.getstream.chat.android.compose.ui.messages.composer.MessageComposer
 import io.getstream.chat.android.compose.ui.messages.list.MessageList
-import io.getstream.chat.android.compose.ui.messages.overlay.SelectedMessageOverlay
-import io.getstream.chat.android.compose.ui.messages.overlay.defaultMessageOptionsState
 import io.getstream.chat.android.compose.ui.theme.ChatTheme
 import io.getstream.chat.android.compose.ui.theme.StreamShapes
 import io.getstream.chat.android.compose.viewmodel.messages.AttachmentsPickerViewModel
@@ -80,7 +82,7 @@ class MessagesActivity3 : AppCompatActivity() {
     fun MyCustomUi() {
         // 1 - Load the data
         val isShowingAttachments = attachmentsPickerViewModel.isShowingAttachments
-        val selectedMessage = listViewModel.currentMessagesState.selectedMessage
+        val selectedMessageState = listViewModel.currentMessagesState.selectedMessageState
         val user by listViewModel.user.collectAsState()
 
         Box(modifier = Modifier.fillMaxSize()) { // 2 - Define the root
@@ -127,21 +129,28 @@ class MessagesActivity3 : AppCompatActivity() {
             }
 
             // 6 - Show the overlay if we've selected a message
-            if (selectedMessage != null) {
-                SelectedMessageOverlay(
-                    messageOptions = defaultMessageOptionsState(
-                        selectedMessage,
-                        user,
-                        listViewModel.isInThread
-                    ),
-                    message = selectedMessage,
-                    onMessageAction = { action ->
-                        composerViewModel.performMessageAction(action)
-                        listViewModel.performMessageAction(action)
-                    },
-                    onDismiss = { listViewModel.removeOverlay() },
-                    currentUser = user
-                )
+            if (selectedMessageState != null) {
+                val selectedMessage = selectedMessageState.message
+                if (selectedMessageState is SelectedMessageOptionsState) {
+                    SelectedMessageMenu(
+                        modifier = Modifier
+                            .align(Alignment.Center)
+                            .padding(horizontal = 20.dp)
+                            .wrapContentSize(),
+                        shape = ChatTheme.shapes.attachment,
+                        messageOptions = defaultMessageOptionsState(
+                            selectedMessage,
+                            user,
+                            listViewModel.isInThread
+                        ),
+                        message = selectedMessage,
+                        onMessageAction = { action ->
+                            composerViewModel.performMessageAction(action)
+                            listViewModel.performMessageAction(action)
+                        },
+                        onDismiss = { listViewModel.removeOverlay() },
+                    )
+                }
             }
         }
     }
