@@ -23,8 +23,10 @@ import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.unit.dp
 import io.getstream.chat.android.common.state.MessageMode.MessageThread
 import io.getstream.chat.android.compose.state.messages.SelectedMessageOptionsState
+import io.getstream.chat.android.compose.state.messages.SelectedMessageReactionsState
 import io.getstream.chat.android.compose.ui.components.messageoptions.defaultMessageOptionsState
 import io.getstream.chat.android.compose.ui.components.selectedmessage.SelectedMessageMenu
+import io.getstream.chat.android.compose.ui.components.selectedmessage.SelectedReactionsMenu
 import io.getstream.chat.android.compose.ui.messages.attachments.AttachmentsPicker
 import io.getstream.chat.android.compose.ui.messages.composer.MessageComposer
 import io.getstream.chat.android.compose.ui.messages.list.MessageList
@@ -149,6 +151,21 @@ class MessagesActivity3 : AppCompatActivity() {
                             listViewModel.performMessageAction(action)
                         },
                         onDismiss = { listViewModel.removeOverlay() },
+                    )
+                } else if (selectedMessageState is SelectedMessageReactionsState) {
+                    SelectedReactionsMenu(
+                        modifier = Modifier
+                            .align(Alignment.Center)
+                            .padding(horizontal = 20.dp)
+                            .wrapContentSize(),
+                        shape = ChatTheme.shapes.attachment,
+                        message = selectedMessage,
+                        currentUser = user,
+                        onMessageAction = { action ->
+                            composerViewModel.performMessageAction(action)
+                            listViewModel.performMessageAction(action)
+                        },
+                        onDismiss = { listViewModel.removeOverlay() }
                     )
                 }
             }

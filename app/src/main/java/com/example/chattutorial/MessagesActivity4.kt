@@ -157,6 +157,21 @@ class MessagesActivity4 : AppCompatActivity() {
                         },
                         onDismiss = { listViewModel.removeOverlay() },
                     )
+                } else if (selectedMessageState is SelectedMessageReactionsState) {
+                    SelectedReactionsMenu(
+                        modifier = Modifier
+                            .align(Alignment.Center)
+                            .padding(horizontal = 20.dp)
+                            .wrapContentSize(),
+                        shape = ChatTheme.shapes.attachment,
+                        message = selectedMessage,
+                        currentUser = user,
+                        onMessageAction = { action ->
+                            composerViewModel.performMessageAction(action)
+                            listViewModel.performMessageAction(action)
+                        },
+                        onDismiss = { listViewModel.removeOverlay() }
+                    )
                 }
             }
         }
