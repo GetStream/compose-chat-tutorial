@@ -7,7 +7,7 @@ import androidx.compose.ui.res.stringResource
 import io.getstream.chat.android.client.ChatClient
 import io.getstream.chat.android.client.logger.ChatLogLevel
 import io.getstream.chat.android.client.models.User
-import io.getstream.chat.android.compose.ui.channel.ChannelsScreen
+import io.getstream.chat.android.compose.ui.channels.ChannelsScreen
 import io.getstream.chat.android.compose.ui.theme.ChatTheme
 import io.getstream.chat.android.offline.ChatDomain
 
