@@ -32,7 +32,6 @@ import androidx.compose.ui.unit.dp
 import io.getstream.chat.android.common.state.MessageMode.MessageThread
 import io.getstream.chat.android.compose.state.messages.SelectedMessageOptionsState
 import io.getstream.chat.android.compose.state.messages.SelectedMessageReactionsState
-import io.getstream.chat.android.compose.state.messages.composer.MessageComposerState
 import io.getstream.chat.android.compose.ui.components.composer.MessageInput
 import io.getstream.chat.android.compose.ui.components.messageoptions.defaultMessageOptionsState
 import io.getstream.chat.android.compose.ui.components.selectedmessage.SelectedMessageMenu
@@ -155,6 +154,9 @@ class MessagesActivity4 : AppCompatActivity() {
                             composerViewModel.performMessageAction(action)
                             listViewModel.performMessageAction(action)
                         },
+                        onShowMoreReactionsSelected = {
+                            listViewModel.selectExtendedReactions(selectedMessage)
+                        },
                         onDismiss = { listViewModel.removeOverlay() },
                     )
                 } else if (selectedMessageState is SelectedMessageReactionsState) {
@@ -169,6 +171,9 @@ class MessagesActivity4 : AppCompatActivity() {
                         onMessageAction = { action ->
                             composerViewModel.performMessageAction(action)
                             listViewModel.performMessageAction(action)
+                        },
+                        onShowMoreReactionsSelected = {
+                            listViewModel.selectExtendedReactions(selectedMessage)
                         },
                         onDismiss = { listViewModel.removeOverlay() }
                     )
@@ -185,23 +190,13 @@ class MessagesActivity4 : AppCompatActivity() {
                 .wrapContentHeight(),
             viewModel = composerViewModel,
             integrations = {}, // 2 - Remove integrations from the composer
-            input = { // 3 - Add a custom message input
-                val value by composerViewModel.input.collectAsState()
-                val selectedAttachments by composerViewModel.selectedAttachments.collectAsState()
-                val activeAction by composerViewModel.lastActiveAction.collectAsState(null)
-                val validationErrors by composerViewModel.validationErrors.collectAsState()
-
+            input = { inputState ->// 3 - Add a custom message input
                 MessageInput(
                     modifier = Modifier
                         .fillMaxWidth()
                         .weight(7f)
                         .padding(start = 8.dp),
-                    messageComposerState = MessageComposerState(
-                        inputValue = value,
-                        attachments = selectedAttachments,
-                        action = activeAction,
-                        validationErrors = validationErrors,
-                    ),
+                    messageComposerState = inputState,
                     onValueChange = { composerViewModel.setMessageInput(it) },
                     onAttachmentRemoved = { composerViewModel.removeSelectedAttachment(it) },
                     label = { // 4 - Override the label to show a custom icon and a text
