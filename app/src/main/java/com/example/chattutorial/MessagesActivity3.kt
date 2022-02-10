@@ -150,6 +150,9 @@ class MessagesActivity3 : AppCompatActivity() {
                             composerViewModel.performMessageAction(action)
                             listViewModel.performMessageAction(action)
                         },
+                        onShowMoreReactionsSelected = {
+                            listViewModel.selectExtendedReactions(selectedMessage)
+                        },
                         onDismiss = { listViewModel.removeOverlay() },
                     )
                 } else if (selectedMessageState is SelectedMessageReactionsState) {
@@ -164,6 +167,9 @@ class MessagesActivity3 : AppCompatActivity() {
                         onMessageAction = { action ->
                             composerViewModel.performMessageAction(action)
                             listViewModel.performMessageAction(action)
+                        },
+                        onShowMoreReactionsSelected = {
+                            listViewModel.selectExtendedReactions(selectedMessage)
                         },
                         onDismiss = { listViewModel.removeOverlay() }
                     )

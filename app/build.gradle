@@ -47,7 +47,7 @@ android {
 }
 
 dependencies {
-    def stream_version = "4.25.0"
+    def stream_version = "4.28.2"
     implementation "io.getstream:stream-chat-android-compose:$stream_version-beta"
 
     implementation "androidx.compose.material:material-icons-extended:$compose_version"
