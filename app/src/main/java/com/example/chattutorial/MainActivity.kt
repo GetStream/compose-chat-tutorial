@@ -51,6 +51,7 @@ class MainActivity : ComponentActivity() {
             ChatTheme {
                 ChannelsScreen(
                     title = stringResource(id = R.string.app_name),
+                    isShowingSearch = true,
                     onItemClick = { channel ->
                         startActivity(MessagesActivity4.getIntent(this, channel.cid))
                     },
