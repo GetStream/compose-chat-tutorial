@@ -1,8 +1,8 @@
 package com.example.chattutorial
 
 import android.os.Bundle
+import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.ui.res.stringResource
 import io.getstream.chat.android.client.ChatClient
 import io.getstream.chat.android.client.logger.ChatLogLevel
@@ -13,7 +13,7 @@ import io.getstream.chat.android.offline.model.message.attachments.UploadAttachm
 import io.getstream.chat.android.offline.plugin.configuration.Config
 import io.getstream.chat.android.offline.plugin.factory.StreamOfflinePluginFactory
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

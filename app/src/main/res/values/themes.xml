@@ -19,7 +19,7 @@
         <item name="windowNoTitle">true</item>
     </style>
 
-    <style name="Theme.ChatTutorial.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+    <style name="Theme.ChatTutorial.AppBarOverlay" parent="ThemeOverlay.MaterialComponents.Dark.ActionBar" />
 
-    <style name="Theme.ChatTutorial.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+    <style name="Theme.ChatTutorial.PopupOverlay" parent="ThemeOverlay.MaterialComponents.Light" />
 </resources>

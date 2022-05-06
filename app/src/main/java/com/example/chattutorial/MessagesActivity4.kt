@@ -3,9 +3,9 @@ package com.example.chattutorial
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
-import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
@@ -46,7 +46,7 @@ import io.getstream.chat.android.compose.viewmodel.messages.MessageComposerViewM
 import io.getstream.chat.android.compose.viewmodel.messages.MessageListViewModel
 import io.getstream.chat.android.compose.viewmodel.messages.MessagesViewModelFactory
 
-class MessagesActivity4 : AppCompatActivity() {
+class MessagesActivity4 : ComponentActivity() {
 
     // Build the ViewModel factory
     private val factory by lazy {
