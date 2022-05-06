@@ -147,7 +147,8 @@ class MessagesActivity4 : ComponentActivity() {
                         messageOptions = defaultMessageOptionsState(
                             selectedMessage,
                             user,
-                            listViewModel.isInThread
+                            listViewModel.isInThread,
+                            selectedMessageState.ownCapabilities
                         ),
                         message = selectedMessage,
                         onMessageAction = { action ->
@@ -158,6 +159,7 @@ class MessagesActivity4 : ComponentActivity() {
                             listViewModel.selectExtendedReactions(selectedMessage)
                         },
                         onDismiss = { listViewModel.removeOverlay() },
+                        ownCapabilities = selectedMessageState.ownCapabilities
                     )
                 } else if (selectedMessageState is SelectedMessageReactionsState) {
                     SelectedReactionsMenu(
@@ -175,7 +177,8 @@ class MessagesActivity4 : ComponentActivity() {
                         onShowMoreReactionsSelected = {
                             listViewModel.selectExtendedReactions(selectedMessage)
                         },
-                        onDismiss = { listViewModel.removeOverlay() }
+                        onDismiss = { listViewModel.removeOverlay() },
+                        ownCapabilities = selectedMessageState.ownCapabilities
                     )
                 }
             }
