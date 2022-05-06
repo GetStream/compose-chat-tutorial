@@ -198,7 +198,8 @@ class MessagesActivity4 : ComponentActivity() {
                     modifier = Modifier
                         .fillMaxWidth()
                         .weight(7f)
-                        .padding(start = 8.dp),
+                        .padding(start = 8.dp)
+                        .align(Alignment.CenterVertically),
                     messageComposerState = inputState,
                     onValueChange = { composerViewModel.setMessageInput(it) },
                     onAttachmentRemoved = { composerViewModel.removeSelectedAttachment(it) },
