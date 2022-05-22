@@ -3,9 +3,9 @@ package com.example.chattutorial
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
-import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
@@ -37,7 +37,7 @@ import io.getstream.chat.android.compose.viewmodel.messages.MessageComposerViewM
 import io.getstream.chat.android.compose.viewmodel.messages.MessageListViewModel
 import io.getstream.chat.android.compose.viewmodel.messages.MessagesViewModelFactory
 
-class MessagesActivity3 : AppCompatActivity() {
+class MessagesActivity3 : ComponentActivity() {
 
     // Build the ViewModel factory
     private val factory by lazy {
@@ -143,7 +143,8 @@ class MessagesActivity3 : AppCompatActivity() {
                         messageOptions = defaultMessageOptionsState(
                             selectedMessage,
                             user,
-                            listViewModel.isInThread
+                            listViewModel.isInThread,
+                            selectedMessageState.ownCapabilities
                         ),
                         message = selectedMessage,
                         onMessageAction = { action ->
@@ -154,6 +155,7 @@ class MessagesActivity3 : AppCompatActivity() {
                             listViewModel.selectExtendedReactions(selectedMessage)
                         },
                         onDismiss = { listViewModel.removeOverlay() },
+                        ownCapabilities = selectedMessageState.ownCapabilities
                     )
                 } else if (selectedMessageState is SelectedMessageReactionsState) {
                     SelectedReactionsMenu(
@@ -171,7 +173,8 @@ class MessagesActivity3 : AppCompatActivity() {
                         onShowMoreReactionsSelected = {
                             listViewModel.selectExtendedReactions(selectedMessage)
                         },
-                        onDismiss = { listViewModel.removeOverlay() }
+                        onDismiss = { listViewModel.removeOverlay() },
+                        ownCapabilities = selectedMessageState.ownCapabilities
                     )
                 }
             }
