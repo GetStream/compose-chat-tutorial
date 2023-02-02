@@ -4,12 +4,12 @@ plugins {
 }
 
 android {
-    compileSdk 32
+    compileSdk 33
 
     defaultConfig {
         applicationId "com.example.chattutorial"
         minSdk 21
-        targetSdk 32
+        targetSdk 33
         versionCode 1
         versionName "1.0"
 
@@ -46,7 +46,7 @@ android {
 }
 
 dependencies {
-    implementation "io.getstream:stream-chat-android-compose:5.8.2"
+    implementation "io.getstream:stream-chat-android-compose:5.12.0"
 
     implementation "androidx.compose.material:material-icons-extended:$compose_version"
     implementation "androidx.compose.ui:ui:$compose_version"
