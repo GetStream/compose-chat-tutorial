@@ -29,9 +29,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.unit.dp
-import io.getstream.chat.android.common.state.MessageMode.MessageThread
-import io.getstream.chat.android.compose.state.messages.SelectedMessageOptionsState
-import io.getstream.chat.android.compose.state.messages.SelectedMessageReactionsState
 import io.getstream.chat.android.compose.ui.components.composer.MessageInput
 import io.getstream.chat.android.compose.ui.components.messageoptions.defaultMessageOptionsState
 import io.getstream.chat.android.compose.ui.components.selectedmessage.SelectedMessageMenu
@@ -45,6 +42,9 @@ import io.getstream.chat.android.compose.viewmodel.messages.AttachmentsPickerVie
 import io.getstream.chat.android.compose.viewmodel.messages.MessageComposerViewModel
 import io.getstream.chat.android.compose.viewmodel.messages.MessageListViewModel
 import io.getstream.chat.android.compose.viewmodel.messages.MessagesViewModelFactory
+import io.getstream.chat.android.ui.common.state.messages.MessageMode
+import io.getstream.chat.android.ui.common.state.messages.list.SelectedMessageOptionsState
+import io.getstream.chat.android.ui.common.state.messages.list.SelectedMessageReactionsState
 
 class MessagesActivity4 : ComponentActivity() {
 
@@ -110,7 +110,7 @@ class MessagesActivity4 : ComponentActivity() {
                         .fillMaxSize(),
                     viewModel = listViewModel,
                     onThreadClick = { message ->
-                        composerViewModel.setMessageMode(MessageThread(message))
+                        composerViewModel.setMessageMode(MessageMode.MessageThread(message))
                         listViewModel.openMessageThread(message)
                     }
                 )
