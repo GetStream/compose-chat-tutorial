@@ -11,6 +11,7 @@ import androidx.compose.ui.unit.dp
 import io.getstream.chat.android.compose.ui.messages.MessagesScreen
 import io.getstream.chat.android.compose.ui.theme.ChatTheme
 import io.getstream.chat.android.compose.ui.theme.StreamShapes
+import io.getstream.chat.android.compose.viewmodel.messages.MessagesViewModelFactory
 
 class MessagesActivity2 : ComponentActivity() {
 
@@ -38,8 +39,11 @@ class MessagesActivity2 : ComponentActivity() {
                     )
             ) {
                 MessagesScreen(
-                    channelId = channelId,
-                    messageLimit = 30,
+                    viewModelFactory = MessagesViewModelFactory(
+                        context = this,
+                        channelId = channelId,
+                        messageLimit = 30
+                    ),
                     onBackPressed = { finish() }
                 )
             }

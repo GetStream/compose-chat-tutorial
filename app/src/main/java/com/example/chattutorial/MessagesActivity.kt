@@ -7,6 +7,7 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import io.getstream.chat.android.compose.ui.messages.MessagesScreen
 import io.getstream.chat.android.compose.ui.theme.ChatTheme
+import io.getstream.chat.android.compose.viewmodel.messages.MessagesViewModelFactory
 
 class MessagesActivity : ComponentActivity() {
 
@@ -24,8 +25,11 @@ class MessagesActivity : ComponentActivity() {
         setContent {
             ChatTheme {
                 MessagesScreen(
-                    channelId = channelId,
-                    messageLimit = 30,
+                    viewModelFactory = MessagesViewModelFactory(
+                        context = this,
+                        channelId = channelId,
+                        messageLimit = 30
+                    ),
                     onBackPressed = { finish() }
                 )
             }

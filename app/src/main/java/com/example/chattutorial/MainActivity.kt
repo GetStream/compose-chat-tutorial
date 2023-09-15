@@ -6,12 +6,12 @@ import androidx.activity.compose.setContent
 import androidx.compose.ui.res.stringResource
 import io.getstream.chat.android.client.ChatClient
 import io.getstream.chat.android.client.logger.ChatLogLevel
-import io.getstream.chat.android.client.models.User
 import io.getstream.chat.android.compose.ui.channels.ChannelsScreen
 import io.getstream.chat.android.compose.ui.theme.ChatTheme
-import io.getstream.chat.android.offline.model.message.attachments.UploadAttachmentsNetworkType
-import io.getstream.chat.android.offline.plugin.configuration.Config
+import io.getstream.chat.android.models.User
 import io.getstream.chat.android.offline.plugin.factory.StreamOfflinePluginFactory
+import io.getstream.chat.android.state.plugin.config.StatePluginConfig
+import io.getstream.chat.android.state.plugin.factory.StreamStatePluginFactory
 
 class MainActivity : ComponentActivity() {
 
@@ -20,18 +20,19 @@ class MainActivity : ComponentActivity() {
 
         // 1 - Set up the OfflinePlugin for offline storage
         val offlinePluginFactory = StreamOfflinePluginFactory(
-            config = Config(
+            appContext = applicationContext,
+        )
+        val statePluginFactory = StreamStatePluginFactory(
+            config = StatePluginConfig(
                 backgroundSyncEnabled = true,
                 userPresence = true,
-                persistenceEnabled = true,
-                uploadAttachmentsNetworkType = UploadAttachmentsNetworkType.NOT_ROAMING,
             ),
-            appContext = applicationContext,
+            appContext = this,
         )
 
         // 2 - Set up the client for API calls and with the plugin for offline storage
         val client = ChatClient.Builder("uun7ywwamhs9", applicationContext)
-            .withPlugin(offlinePluginFactory)
+            .withPlugins(offlinePluginFactory, statePluginFactory)
             .logLevel(ChatLogLevel.ALL) // Set to NOTHING in prod
             .build()
 
