@@ -1,6 +1,7 @@
 package com.example.chattutorial
 
 import android.os.Bundle
+import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.ui.res.stringResource
@@ -42,22 +43,27 @@ class MainActivity : ComponentActivity() {
             name = "Tutorial Droid",
             image = "https://bit.ly/2TIt8NR"
         )
+
         client.connectUser(
             user = user,
             token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoidHV0b3JpYWwtZHJvaWQifQ.WwfBzU1GZr0brt_fXnqKdKhz3oj0rbDUm2DqJO_SS5U"
-        ).enqueue()
-
-        // 4 - Set up the Channels Screen UI
-        setContent {
-            ChatTheme {
-                ChannelsScreen(
-                    title = stringResource(id = R.string.app_name),
-                    isShowingSearch = true,
-                    onItemClick = { channel ->
-                        startActivity(MessagesActivity4.getIntent(this, channel.cid))
-                    },
-                    onBackPressed = { finish() }
-                )
+        ).enqueue {
+            if (it.isSuccess) {
+                // 4 - Set up the Channels Screen UI
+                setContent {
+                    ChatTheme {
+                        ChannelsScreen(
+                            title = stringResource(id = R.string.app_name),
+                            isShowingSearch = true,
+                            onItemClick = { channel ->
+                                startActivity(MessagesActivity4.getIntent(this@MainActivity, channel.cid))
+                            },
+                            onBackPressed = { finish() }
+                        )
+                    }
+                }
+            } else {
+                Toast.makeText(this, "something went wrong!", Toast.LENGTH_SHORT).show()
             }
         }
     }
