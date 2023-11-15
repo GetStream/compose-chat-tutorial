@@ -1,14 +1,17 @@
 package com.example.chattutorial
 
 import android.os.Bundle
-import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.material.Text
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.res.stringResource
 import io.getstream.chat.android.client.ChatClient
 import io.getstream.chat.android.client.logger.ChatLogLevel
 import io.getstream.chat.android.compose.ui.channels.ChannelsScreen
 import io.getstream.chat.android.compose.ui.theme.ChatTheme
+import io.getstream.chat.android.models.InitializationState
 import io.getstream.chat.android.models.User
 import io.getstream.chat.android.offline.plugin.factory.StreamOfflinePluginFactory
 import io.getstream.chat.android.state.plugin.config.StatePluginConfig
@@ -47,11 +50,15 @@ class MainActivity : ComponentActivity() {
         client.connectUser(
             user = user,
             token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoidHV0b3JpYWwtZHJvaWQifQ.WwfBzU1GZr0brt_fXnqKdKhz3oj0rbDUm2DqJO_SS5U"
-        ).enqueue {
-            if (it.isSuccess) {
-                // 4 - Set up the Channels Screen UI
-                setContent {
-                    ChatTheme {
+        ).enqueue()
+
+        setContent {
+            // Observe the client connection state
+            val clientInitialisationState by client.clientState.initializationState.collectAsState()
+
+            ChatTheme {
+                when (clientInitialisationState) {
+                    InitializationState.COMPLETE -> {
                         ChannelsScreen(
                             title = stringResource(id = R.string.app_name),
                             isShowingSearch = true,
@@ -61,9 +68,13 @@ class MainActivity : ComponentActivity() {
                             onBackPressed = { finish() }
                         )
                     }
+                    InitializationState.INITIALIZING -> {
+                        Text(text = "Initialising...")
+                    }
+                    InitializationState.NOT_INITIALIZED -> {
+                        Text(text = "Not initialized...")
+                    }
                 }
-            } else {
-                Toast.makeText(this, "something went wrong!", Toast.LENGTH_SHORT).show()
             }
         }
     }
