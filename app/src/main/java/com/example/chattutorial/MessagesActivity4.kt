@@ -18,10 +18,12 @@ import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Icon
+import androidx.compose.material.IconButton
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Keyboard
+import androidx.compose.material.icons.filled.Videocam
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -35,6 +37,7 @@ import io.getstream.chat.android.compose.ui.components.selectedmessage.SelectedM
 import io.getstream.chat.android.compose.ui.components.selectedmessage.SelectedReactionsMenu
 import io.getstream.chat.android.compose.ui.messages.attachments.AttachmentsPicker
 import io.getstream.chat.android.compose.ui.messages.composer.MessageComposer
+import io.getstream.chat.android.compose.ui.messages.header.MessageListHeader
 import io.getstream.chat.android.compose.ui.messages.list.MessageList
 import io.getstream.chat.android.compose.ui.theme.ChatTheme
 import io.getstream.chat.android.compose.ui.theme.StreamShapes
@@ -96,9 +99,40 @@ class MessagesActivity4 : ComponentActivity() {
         val selectedMessageState = listViewModel.currentMessagesState.selectedMessageState
         val user by listViewModel.user.collectAsState()
 
+
         Box(modifier = Modifier.fillMaxSize()) { // 2 - Define the root
             Scaffold(
                 modifier = Modifier.fillMaxSize(),
+                topBar = {
+                    val connectionState by listViewModel.connectionState.collectAsState()
+
+                    MessageListHeader(
+                        channel = listViewModel.channel,
+                        currentUser = user,
+                        connectionState = connectionState,
+                        modifier = Modifier.height(55.dp),
+                        onBackPressed = { finish() },
+                        trailingContent = {
+                            IconButton(
+                                onClick = {
+                                    startActivity(
+                                        VideoCallActivity.getIntent(
+                                            context = this@MessagesActivity4,
+                                            callMembers = listViewModel.channel.members.map { it.user.id }
+                                        )
+                                    )
+                                },
+                                content = {
+                                    Icon(
+                                        imageVector = Icons.Default.Videocam,
+                                        contentDescription = "Video Call",
+                                        tint = ChatTheme.colors.textHighEmphasis,
+                                    )
+                                }
+                            )
+                        },
+                    )
+                },
                 bottomBar = {
                     MyCustomComposer() // <--
                 }

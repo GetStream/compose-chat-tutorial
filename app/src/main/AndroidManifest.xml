@@ -2,6 +2,10 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.chattutorial">
 
+    <uses-feature
+        android:name="android.hardware.camera.any"
+        android:required="false" />
+
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.CAMERA" />
@@ -13,6 +17,17 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.ChatTutorial">
+        <activity
+            android:name=".VideoCallActivity"
+            android:exported="false">
+            <intent-filter android:priority="1">
+                <action android:name="io.getstream.video.android.action.INCOMING_CALL" />
+                <action android:name="io.getstream.video.android.action.ONGOING_CALL" />
+                <action android:name="io.getstream.video.android.action.ACCEPT_CALL" />
+                <action android:name="io.getstream.video.android.action.OUTGOING_CALL" />
+                <action android:name="io.getstream.video.android.action.NOTIFICATION" />
+            </intent-filter>
+        </activity>
         <activity
             android:name=".MessagesActivity"
             android:exported="true"
@@ -32,7 +47,6 @@
         <activity
             android:name=".MainActivity"
             android:exported="true"
-            android:label="@string/app_name"
             android:theme="@style/Theme.ChatTutorial.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

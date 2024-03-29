@@ -7,12 +7,13 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.res.stringResource
+import com.example.chattutorial.data.currentUser
+import com.example.chattutorial.data.toChatUser
 import io.getstream.chat.android.client.ChatClient
 import io.getstream.chat.android.client.logger.ChatLogLevel
 import io.getstream.chat.android.compose.ui.channels.ChannelsScreen
 import io.getstream.chat.android.compose.ui.theme.ChatTheme
 import io.getstream.chat.android.models.InitializationState
-import io.getstream.chat.android.models.User
 import io.getstream.chat.android.offline.plugin.factory.StreamOfflinePluginFactory
 import io.getstream.chat.android.state.plugin.config.StatePluginConfig
 import io.getstream.chat.android.state.plugin.factory.StreamStatePluginFactory
@@ -41,15 +42,12 @@ class MainActivity : ComponentActivity() {
             .build()
 
         // 3 - Authenticate and connect the user
-        val user = User(
-            id = "tutorial-droid",
-            name = "Tutorial Droid",
-            image = "https://bit.ly/2TIt8NR"
-        )
+        val user = currentUser.toChatUser()
+        val token = currentUser.chatToken
 
         client.connectUser(
             user = user,
-            token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoidHV0b3JpYWwtZHJvaWQifQ.WwfBzU1GZr0brt_fXnqKdKhz3oj0rbDUm2DqJO_SS5U"
+            token = token
         ).enqueue()
 
         setContent {
