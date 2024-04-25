@@ -7,7 +7,7 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.res.stringResource
-import com.example.chattutorial.data.currentUser
+import com.example.chattutorial.data.Auth
 import com.example.chattutorial.data.toChatUser
 import io.getstream.chat.android.client.ChatClient
 import io.getstream.chat.android.client.logger.ChatLogLevel
@@ -36,14 +36,14 @@ class MainActivity : ComponentActivity() {
         )
 
         // 2 - Set up the client for API calls and with the plugin for offline storage
-        val client = ChatClient.Builder("uun7ywwamhs9", applicationContext)
+        val client = ChatClient.Builder(Auth.apiKey, applicationContext)
             .withPlugins(offlinePluginFactory, statePluginFactory)
             .logLevel(ChatLogLevel.ALL) // Set to NOTHING in prod
             .build()
 
         // 3 - Authenticate and connect the user
-        val user = currentUser.toChatUser()
-        val token = currentUser.chatToken
+        val user = Auth.currentUser.toChatUser()
+        val token = Auth.currentUser.token
 
         client.connectUser(
             user = user,

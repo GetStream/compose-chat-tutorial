@@ -10,7 +10,7 @@ import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.lifecycleScope
-import com.example.chattutorial.data.currentUser
+import com.example.chattutorial.data.Auth.currentUser
 import com.example.chattutorial.data.toVideoUser
 import io.getstream.android.push.firebase.FirebasePushDeviceGenerator
 import io.getstream.video.android.compose.permission.LaunchCallPermissions
@@ -28,6 +28,7 @@ import io.getstream.video.android.core.notifications.NotificationConfig
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import java.util.UUID
 
 class VideoCallActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -36,8 +37,8 @@ class VideoCallActivity : ComponentActivity() {
         // Authentication
         val apiKey = "mmhfdzb5evj2"
         val user = currentUser.toVideoUser()
-        val token = currentUser.videoToken
-        val callId = "chat-and-video-calls-integration"
+        val token = currentUser.token
+        val callId = UUID.randomUUID().toString()
 
         // Stream Video client init
         // In a production app we recommend initializing the client in your Application class or DI module
@@ -132,6 +133,20 @@ class VideoCallActivity : ComponentActivity() {
     private fun rejectCall(call: Call) {
         lifecycleScope.launch {
             call.reject()
+            withContext(Dispatchers.Main) { finish() }
+        }
+    }
+
+    private fun hangUpCall(call: Call) {
+        lifecycleScope.launch {
+            call.leave()
+            withContext(Dispatchers.Main) { finish() }
+        }
+    }
+
+    private fun endCall(call: Call) {
+        lifecycleScope.launch {
+            call.end()
             withContext(Dispatchers.Main) { finish() }
         }
     }
