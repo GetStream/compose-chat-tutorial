@@ -48,6 +48,10 @@ import io.getstream.chat.android.compose.viewmodel.messages.MessagesViewModelFac
 import io.getstream.chat.android.ui.common.state.messages.MessageMode
 import io.getstream.chat.android.ui.common.state.messages.list.SelectedMessageOptionsState
 import io.getstream.chat.android.ui.common.state.messages.list.SelectedMessageReactionsState
+import io.getstream.video.android.core.notifications.NotificationHandler
+import io.getstream.video.android.model.StreamCallId
+import io.getstream.video.android.ui.common.StreamCallActivity
+import java.util.UUID
 
 class MessagesActivity4 : ComponentActivity() {
 
@@ -115,12 +119,7 @@ class MessagesActivity4 : ComponentActivity() {
                         trailingContent = {
                             IconButton(
                                 onClick = {
-                                    startActivity(
-                                        VideoCallActivity.getIntent(
-                                            context = this@MessagesActivity4,
-                                            callMembers = listViewModel.channel.members.map { it.user.id }
-                                        )
-                                    )
+                                    startOutgoingCallActivity(listOf("tutorial-incoming"))
                                 },
                                 content = {
                                     Icon(
@@ -258,6 +257,18 @@ class MessagesActivity4 : ComponentActivity() {
                 )
             }
         )
+    }
+
+    private fun startOutgoingCallActivity(receivers: List<String>) {
+        val intent = StreamCallActivity.callIntent(
+            context = this,
+            cid = StreamCallId(type = "default", id = UUID.randomUUID().toString()),
+            members = receivers.toList(),
+            leaveWhenLastInCall = true,
+            action = NotificationHandler.ACTION_OUTGOING_CALL,
+            clazz = CustomCallActivity::class.java,
+        )
+        startActivity(intent)
     }
 
     // 3 - Create an intent to start this Activity, with a given channelId
