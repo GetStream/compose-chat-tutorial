@@ -61,8 +61,7 @@ class MainActivity : ComponentActivity() {
                     InitializationState.COMPLETE -> {
                         ChannelsScreen(
                             title = stringResource(id = R.string.app_name),
-                            isShowingSearch = true,
-                            onItemClick = { channel ->
+                            onChannelClick = { channel ->
                                 startActivity(MessagesActivity4.getIntent(this@MainActivity, channel.cid))
                             },
                             onBackPressed = { finish() }
