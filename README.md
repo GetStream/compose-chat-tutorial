@@ -20,10 +20,10 @@ The tutorial app consists of two screens:
 * `MainActivity`: Shows the list of available channels.
 * `MessagesActivity`: Shows the selected channel view, which includes the header, message list, and message input view.
 
-There are a handful of `MessagesActivity` implementations, which correspond to the steps of the tutorial. You can easily swap them by changing the `onItemClick` handler located in `MainActivity`:
+There are a handful of `MessagesActivity` implementations, which correspond to the steps of the tutorial. You can easily swap them by changing the `onChannelClick` handler located in `MainActivity`:
 
 ```kotlin
-onItemClick = { channel ->
+onChannelClick = { channel ->
     startActivity(MessagesActivity4.getIntent(this, channel.cid))
 },
 ```
