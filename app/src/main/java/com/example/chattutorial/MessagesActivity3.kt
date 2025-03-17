@@ -126,7 +126,8 @@ class MessagesActivity3 : ComponentActivity() {
                     onDismiss = {
                         attachmentsPickerViewModel.changeAttachmentState(false)
                         attachmentsPickerViewModel.dismissAttachments()
-                    }
+                    },
+                    onTabClick = { _, _ -> /* Not needed for this example */ }
                 )
             }
 
@@ -143,7 +144,6 @@ class MessagesActivity3 : ComponentActivity() {
                         messageOptions = defaultMessageOptionsState(
                             selectedMessage,
                             user,
-                            listViewModel.isInThread,
                             selectedMessageState.ownCapabilities
                         ),
                         message = selectedMessage,
