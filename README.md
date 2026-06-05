@@ -9,7 +9,7 @@ The project is pre-configured with a shared [Stream](https://getstream.io) accou
 ## Quick start
 
 1. Clone the repository
-2. Open the project in Android Studio (Arctic  Fox or later)
+2. Open the project in the latest stable version of Android Studio
 3. Run the _app_
 4. Make sure to check the [Details](#details) section below for the different steps
 
@@ -18,19 +18,18 @@ The project is pre-configured with a shared [Stream](https://getstream.io) accou
 The tutorial app consists of two screens:
 
 * `MainActivity`: Shows the list of available channels.
-* `MessagesActivity`: Shows the selected channel view, which includes the header, message list, and message input view.
+* `ChannelActivity`: Shows the selected channel view, which includes the header, message list, and message input view.
 
-There are a handful of `MessagesActivity` implementations, which correspond to the steps of the tutorial. You can easily swap them by changing the `onChannelClick` handler located in `MainActivity`:
+`ChannelActivity` follows the published tutorial step-by-step and includes a colors customization on `ChatTheme`. Three additional `ChannelActivity*` implementations show alternative customization techniques and screen compositions. To try one, point `MainActivity`'s `onChannelClick` at it:
 
 ```kotlin
 onChannelClick = { channel ->
-    startActivity(MessagesActivity4.getIntent(this, channel.cid))
+    startActivity(ChannelActivity4.getIntent(this, channel.cid))
 },
 ```
 
-You can choose from four different `MessagesActivity` implementations:
+You can choose from three alternative `ChannelActivity` implementations:
 
-* `MessagesActivity` - a basic _Message Screen_ implementation
-* `MessagesActivity2` - includes customization of the screen by using `ChatTheme` 
-* `MessagesActivity3` - uses bound and stateless components to build the chat screen, with further customization
-* `MessagesActivity4` - uses a custom message composer component for extended customization
+* `ChannelActivity2` - customizes typography via `ChatTheme`
+* `ChannelActivity3` - uses bound and stateless components to build the chat screen
+* `ChannelActivity4` - uses a custom message composer component

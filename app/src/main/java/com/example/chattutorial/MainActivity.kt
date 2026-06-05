@@ -3,44 +3,33 @@ package com.example.chattutorial
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.material.Text
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.safeDrawingPadding
+import androidx.compose.material3.Text
+import androidx.compose.ui.Modifier
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.res.stringResource
 import io.getstream.chat.android.client.ChatClient
 import io.getstream.chat.android.client.logger.ChatLogLevel
 import io.getstream.chat.android.compose.ui.channels.ChannelsScreen
+import io.getstream.chat.android.compose.ui.channels.SearchMode
 import io.getstream.chat.android.compose.ui.theme.ChatTheme
 import io.getstream.chat.android.models.InitializationState
 import io.getstream.chat.android.models.User
-import io.getstream.chat.android.offline.plugin.factory.StreamOfflinePluginFactory
-import io.getstream.chat.android.state.plugin.config.StatePluginConfig
-import io.getstream.chat.android.state.plugin.factory.StreamStatePluginFactory
 
 class MainActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        // 1 - Set up the OfflinePlugin for offline storage
-        val offlinePluginFactory = StreamOfflinePluginFactory(
-            appContext = applicationContext,
-        )
-        val statePluginFactory = StreamStatePluginFactory(
-            config = StatePluginConfig(
-                backgroundSyncEnabled = true,
-                userPresence = true,
-            ),
-            appContext = this,
-        )
-
-        // 2 - Set up the client for API calls and with the plugin for offline storage
+        // Set up the client for API calls with offline storage and state management
         val client = ChatClient.Builder("uun7ywwamhs9", applicationContext)
-            .withPlugins(offlinePluginFactory, statePluginFactory)
             .logLevel(ChatLogLevel.ALL) // Set to NOTHING in prod
             .build()
 
-        // 3 - Authenticate and connect the user
+        // Authenticate and connect the user
         val user = User(
             id = "tutorial-droid",
             name = "Tutorial Droid",
@@ -57,21 +46,29 @@ class MainActivity : ComponentActivity() {
             val clientInitialisationState by client.clientState.initializationState.collectAsState()
 
             ChatTheme {
-                when (clientInitialisationState) {
-                    InitializationState.COMPLETE -> {
-                        ChannelsScreen(
-                            title = stringResource(id = R.string.app_name),
-                            onChannelClick = { channel ->
-                                startActivity(MessagesActivity4.getIntent(this@MainActivity, channel.cid))
-                            },
-                            onBackPressed = { finish() }
-                        )
-                    }
-                    InitializationState.INITIALIZING -> {
-                        Text(text = "Initialising...")
-                    }
-                    InitializationState.NOT_INITIALIZED -> {
-                        Text(text = "Not initialized...")
+                Box(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .safeDrawingPadding(),
+                ) {
+                    when (clientInitialisationState) {
+                        InitializationState.COMPLETE -> {
+                            ChannelsScreen(
+                                title = stringResource(id = R.string.app_name),
+                                isShowingHeader = true,
+                                searchMode = SearchMode.Messages,
+                                onChannelClick = { channel ->
+                                    startActivity(ChannelActivity.getIntent(this@MainActivity, channel.cid))
+                                },
+                                onBackPressed = { finish() }
+                            )
+                        }
+                        InitializationState.INITIALIZING -> {
+                            Text(text = "Initializing...")
+                        }
+                        InitializationState.NOT_INITIALIZED -> {
+                            Text(text = "Not initialized...")
+                        }
                     }
                 }
             }

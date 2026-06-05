@@ -14,19 +14,19 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.ChatTutorial">
         <activity
-            android:name=".MessagesActivity"
+            android:name=".ChannelActivity"
             android:exported="true"
             android:windowSoftInputMode="adjustResize" />
         <activity
-            android:name=".MessagesActivity2"
+            android:name=".ChannelActivity2"
             android:exported="true"
             android:windowSoftInputMode="adjustResize" />
         <activity
-            android:name=".MessagesActivity3"
+            android:name=".ChannelActivity3"
             android:exported="true"
             android:windowSoftInputMode="adjustResize" />
         <activity
-            android:name=".MessagesActivity4"
+            android:name=".ChannelActivity4"
             android:exported="true"
             android:windowSoftInputMode="adjustResize" />
         <activity
